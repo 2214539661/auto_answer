@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测评量表自动答题1.2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 1.8em;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="number"], input[type="text"], input[type="button"] {
+            padding: 8px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 50px;
+        }
+
+        input[type="button"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            margin-top: 5px;
+            width: auto;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        span {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>测评量表自动答题1.2</h1>
+    <div>
+        <span>量表:</span>
+        <span id="measure">获取量表名称中...</span>
+    </div>
+    <div>
+        <span>当前状态:</span>
+        <span id="status">无</span>
+    </div>
+    <div>
+        <label for="myInput">
+            <span>答题速度</span>
+            <input type="text" id="myInput" value="100">
+            <span>毫秒</span>
+        </label>
+    </div>
+    <div>
+        <input type="button" value="开始答题" id="start">
+        <input type="button" value="连续答题" id="startTrue">
+        <input type="button" value="停止" id="stop">
+        <input type="button" value="快速完成(全版通用)" id="quickly_finish">
+        <input type="button" value="CT1测评答题" id="starCt1">
+    </div>
+</div>
+<script src="popup.js" nonce="random_nonce_value"></script>
+<script src="content.js" nonce="random_nonce_value"></script>
+</body>
+</html>
