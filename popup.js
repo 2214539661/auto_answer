@@ -2,12 +2,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('start')) {
         document.getElementById('start').addEventListener('click', function () {
-            sendMessage({action: 'start', time: getValue(), IsWhile: false});
+            sendMessage({action: 'start', time: getValue(), question: getQuestions(), IsWhile: false});
         });
     }
     if (document.getElementById('startTrue')) {
         document.getElementById('startTrue').addEventListener('click', function () {
-            sendMessage({action: 'start', time: getValue(), IsWhile: true});
+            sendMessage({action: 'start', time: getValue(), question: getQuestions(), IsWhile: true});
         });
     }
     if (document.getElementById('stop')) {
@@ -17,17 +17,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if (document.getElementById('quickly_finish')) {
         document.getElementById('quickly_finish').addEventListener('click', function () {
-            sendMessage({action: 'quickly_finish'});
+            sendMessage({action: 'quickly_finish', question: getQuestions()});
         });
     }
     if (document.getElementById('starCtZhpg')) {
         document.getElementById('starCtZhpg').addEventListener('click', function () {
-            sendMessage({action: 'starCtZhpg', time: getValue()});
+            sendMessage({action: 'starCtZhpg', time: getValue(), question: getQuestions()});
         });
     }
     if (document.getElementById('starCt1')) {
         document.getElementById('starCt1').addEventListener('click', function () {
-            sendMessage({action: 'starCt1', time: getValue()});
+            sendMessage({action: 'starCt1', time: getValue(), question: getQuestions()});
         });
     }
 });

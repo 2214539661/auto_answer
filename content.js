@@ -6,6 +6,8 @@ let thisIsWhile = false;
 let isSubmit = false
 // 开始测评按钮是否点击
 let startButton = false
+// 固定选项 -1随机
+let fixed_question = -1
 
 let statusDocument = document.getElementById('status');
 let measureDocument = document.getElementById('measure');
@@ -24,9 +26,8 @@ function clickRandomElement() {
         setStatus(3)
         return;
     }
-
     // 随机选择一个元素的索引
-    let randomIndex = Math.floor(Math.random() * elements.length);
+    let randomIndex = getFixedQuestion(elements.length);
 
     // 模拟点击随机选择的元素  选择过当前题就不重复点击了
     if (isSubmit === false) {
@@ -108,9 +109,8 @@ function start(time, IsWhile) {
     IsInitStart();
     thisIsWhile = IsWhile;
     intervalId = setInterval(() => {
-
         // 判断是否在答题界面
-        if (hasClass('huahua_box') || hasClass('tit_box')) {
+        if (hasClass('huahua_box') || hasId('questAnswer') || hasClass('questAnswer')) {
             // 开始答题
             clickRandomElement();
             startButton = false
@@ -168,7 +168,7 @@ function starCt1(time) {
         // 2. 确保选择到了元素
         if (elements.length > 0) {
             // 3. 随机选择一个元素
-            const randomIndex = Math.floor(Math.random() * elements.length);
+            const randomIndex = getFixedQuestion(elements.length);
             const randomElement = elements[randomIndex];
             // 4. 模拟点击事件
             randomElement.click();
@@ -176,6 +176,10 @@ function starCt1(time) {
     }, time)
     intervalIds.push(intervalId)
 
+}
+
+function getFixedQuestion(max) {
+    return fixed_question === -1 ? Math.floor(Math.random() * max) : fixed_question;
 }
 
 /**
@@ -191,7 +195,7 @@ function starCtZhpg(time) {
         const elements = document.querySelectorAll('.flex.cursorP.sorts');
         if (elements.length > 0) {
             // 随机选择一个元素的索引
-            const randomIndex = Math.floor(Math.random() * elements.length);
+            const randomIndex = getFixedQuestion(elements.length);
 
             // 获取随机选择的元素
             const randomElement = elements[randomIndex];
@@ -199,7 +203,7 @@ function starCtZhpg(time) {
             // 模拟点击该元素
             randomElement.click();
             textClick('下一题')
-            if (HasText('提交答案')){
+            if (HasText('提交答案')) {
                 stop();
             }
         }
@@ -276,6 +280,11 @@ function getValue() {
     return 200;
 }
 
+function getQuestions() {
+    const selectedOption = document.querySelector('input[name="fixed_questions"]:checked');
+    return selectedOption ? selectedOption.value : null;
+}
+
 /**
  * 匹配文字标签，执行点击事件
  * @param text 需要点击的文字标签
@@ -323,6 +332,15 @@ function hasClass(className) {
     return document.getElementsByClassName(className).length > 0;
 }
 
+/**
+ * 判断id元素是否存在
+ * @param Name
+ * @returns {boolean}
+ */
+function hasId(Name) {
+    return document.getElementById(Name) !== null;
+}
+
 function sleep(ms) {
     const start = Date.now();
     while (Date.now() - start < ms) {
@@ -344,6 +362,7 @@ async function quickly_finish() {
 
 // 监听来自插件的消息
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    fixed_question = parseInt(message?.question || -1)
     switch (message.action) {
         case "start":
             start(message.time, message.IsWhile);
@@ -483,7 +502,7 @@ class Measure {
      * @returns {*}
      */
     getOption(answers) {
-        const randomIndex = Math.floor(Math.random() * answers.length);
+        const randomIndex = getFixedQuestion(answers.length);
         return answers[randomIndex].answer_sort || '';
     }
 

@@ -3,66 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>测评量表自动答题1.2</title>
+    <title>测评量表自动答题1.3</title>
     <style>
+        /* 通用样式 */
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
-            padding: 20px;
-            background-color: #f0f0f0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
         }
 
         .container {
-            width: 400px;
-            margin: 0 auto;
+            width: 500px;
+            /*margin: 40px auto;*/
             background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /*padding: 25px;*/
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e3e3e3;
         }
 
         h1 {
             font-size: 1.8em;
-            margin-top: 0;
+            margin: 0 0 20px;
+            text-align: center;
+            color: #007bff;
+        }
+
+        div {
+            margin-bottom: 15px;
         }
 
         label {
-            display: block;
-            margin-bottom: 10px;
+            font-size: 14px;
+            color: #555;
         }
 
-        input[type="number"], input[type="text"], input[type="button"] {
-            padding: 8px;
-            font-size: 1em;
+        span {
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 10px;
+            font-size: 14px;
             border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 50px;
+            border-radius: 5px;
+            width: 80px;
+            text-align: center;
+            margin-left: 10px;
         }
 
         input[type="button"] {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
             background-color: #007bff;
             color: #fff;
             cursor: pointer;
-            margin-top: 5px;
-            width: auto;
-            padding: 8px 10px;
-            border: none;
-            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
         }
 
         input[type="button"]:hover {
             background-color: #0056b3;
         }
 
-        span {
-            margin-right: 5px;
+        input[type="button"]:active {
+            background-color: #003f7f;
         }
+
+        .fixed-questions {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .label-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .options input[type="radio"] {
+            accent-color: #007bff;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+        }
+
+        #status, #measure {
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* 按钮容器样式 */
+        div:last-child {
+            text-align: center;
+        }
+
+
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>测评量表自动答题1.2</h1>
+    <h1>测评量表自动答题1.3</h1>
     <div>
         <span>量表:</span>
         <span id="measure">获取量表名称中...</span>
@@ -79,14 +148,17 @@
         </label>
     </div>
     <div>
-        <label>
-            <span>固定选项</span>
-            随机：<input type="radio" value="-1" name="fixed_questions">
-            选项1：<input type="radio" value="0" name="fixed_questions">
-            选项2：<input type="radio" value="1" name="fixed_questions">
-            选项3：<input type="radio" value="2" name="fixed_questions">
-            选项4：<input type="radio" value="3" name="fixed_questions">
+        <label id="fixed_questions" class="fixed-questions">
+            <span class="label-title">固定选项：</span>
+            <div class="options">
+                <label><input type="radio" value="-1" name="fixed_questions" checked> 随机</label>
+                <label><input type="radio" value="0" name="fixed_questions"> 选项1</label>
+                <label><input type="radio" value="1" name="fixed_questions"> 选项2</label>
+                <label><input type="radio" value="2" name="fixed_questions"> 选项3</label>
+                <label><input type="radio" value="3" name="fixed_questions"> 选项4</label>
+            </div>
         </label>
+
     </div>
     <div>
         <input type="button" value="开始答题" id="start">
