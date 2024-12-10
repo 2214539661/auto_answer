@@ -13,6 +13,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         case "starCt1":
             sendMessage(message);
             break;
+        case "starCtZhpg":
+            sendMessage(message);
+            break;
         case "setStatus":
             setStatus(message.status);
             break;

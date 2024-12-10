@@ -20,6 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
             sendMessage({action: 'quickly_finish'});
         });
     }
+    if (document.getElementById('starCtZhpg')) {
+        document.getElementById('starCtZhpg').addEventListener('click', function () {
+            sendMessage({action: 'starCtZhpg', time: getValue()});
+        });
+    }
     if (document.getElementById('starCt1')) {
         document.getElementById('starCt1').addEventListener('click', function () {
             sendMessage({action: 'starCt1', time: getValue()});

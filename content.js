@@ -1,4 +1,5 @@
 let intervalId = null;
+let intervalIds = [];
 let intervalOutId = null;
 let starIntervalOutId = null;
 let thisIsWhile = false;
@@ -27,7 +28,6 @@ function clickRandomElement() {
     // 随机选择一个元素的索引
     let randomIndex = Math.floor(Math.random() * elements.length);
 
-    console.log('1111')
     // 模拟点击随机选择的元素  选择过当前题就不重复点击了
     if (isSubmit === false) {
         elements[randomIndex].click();
@@ -51,8 +51,7 @@ function clickRandomElement() {
             }
         } else {
             // 不一直执行者销毁动作结束任务
-            intervalId && clearInterval(intervalId);
-            intervalId = null
+            stop()
         }
         setStatus(2);
         return;
@@ -111,7 +110,7 @@ function start(time, IsWhile) {
     intervalId = setInterval(() => {
 
         // 判断是否在答题界面
-        if (hasClass('huahua_box')) {
+        if (hasClass('huahua_box') || hasClass('tit_box')) {
             // 开始答题
             clickRandomElement();
             startButton = false
@@ -151,6 +150,7 @@ function start(time, IsWhile) {
             textClick('测评管理');
         }
     }, time);
+    intervalIds.push(intervalId)
 }
 
 /**
@@ -158,7 +158,7 @@ function start(time, IsWhile) {
  * @param time
  */
 function starCt1(time) {
-    console.log('time',time)
+    if (intervalId) return;
     intervalId = setInterval(() => {
         const title = document.querySelector('.answer-content-layout').querySelector('.title').querySelector('p').innerText
         sendMessage({action: 'setMeasure', title: title});
@@ -174,11 +174,47 @@ function starCt1(time) {
             randomElement.click();
         }
     }, time)
+    intervalIds.push(intervalId)
+
+}
+
+/**
+ * 整合评估模拟点击
+ * @param time
+ */
+function starCtZhpg(time) {
+    if (intervalId) return;
+    setStatus(1)
+    intervalId = setInterval(() => {
+        // 设定一个函数来模拟点击
+        // 选择所有符合条件的元素
+        const elements = document.querySelectorAll('.flex.cursorP.sorts');
+        if (elements.length > 0) {
+            // 随机选择一个元素的索引
+            const randomIndex = Math.floor(Math.random() * elements.length);
+
+            // 获取随机选择的元素
+            const randomElement = elements[randomIndex];
+
+            // 模拟点击该元素
+            randomElement.click();
+            textClick('下一题')
+            if (HasText('提交答案')){
+                stop();
+            }
+        }
+    }, time)
+    intervalIds.push(intervalId)
+
 }
 
 function stop() {
     intervalId && clearInterval(intervalId)
     intervalId = null;
+    intervalIds.forEach((i) => {
+        clearInterval(i)
+    })
+    intervalIds = [];
     setStatus(4);
 }
 
@@ -247,7 +283,6 @@ function getValue() {
  * @param random 只点击一次时是否随机点击
  */
 function textClick(text = '', once = true, random = false) {
-    console.log(text)
     if (text === '') return null;
     const xpath = "//text()[normalize-space(.)='" + text + "']/parent::*";
     const result = document.evaluate(xpath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
@@ -324,6 +359,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             break;
         case "starCt1":
             starCt1(message.time);
+            break;
+        case "starCtZhpg":
+            starCtZhpg(message.time);
             break;
     }
 });
